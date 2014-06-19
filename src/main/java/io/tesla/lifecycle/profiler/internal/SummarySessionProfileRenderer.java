@@ -50,7 +50,7 @@ public class SummarySessionProfileRenderer implements SessionProfileRenderer {
             for(PhaseProfile phaseProfile : pp.getPhaseProfile()) {
                 putOrAdd(phases, phaseProfile.getPhase(), phaseProfile.getElapsedTime());
                 for (MojoProfile mojo : phaseProfile.getMojoProfiles()) {
-                    putOrAdd(mojos, mojo.getClass() + "(" + mojo.getId() + ")", mojo.getElapsedTime());
+                    putOrAdd(mojos, mojo.getId(), mojo.getElapsedTime());
                 }
             }
         }
