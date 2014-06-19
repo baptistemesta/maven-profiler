@@ -18,34 +18,38 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.codehaus.plexus.component.annotations.Component;
+
 @Named
 @Singleton
+@Component(role = SessionProfileRenderer.class)
 public class DefaultSessionProfileRenderer implements SessionProfileRenderer {
 
-  private Timer timer;
-  
-  @Inject
-  public DefaultSessionProfileRenderer(Timer timer) {
-    this.timer = timer;
-  }
-  
-  public void render(SessionProfile sessionProfile) {
-    
-    for(ProjectProfile pp : sessionProfile.getProjectProfiles()) {
-      render("");
-      render(pp.getProjectName());
-      render("");
-      for(PhaseProfile phaseProfile : pp.getPhaseProfile()) {
-        render("  " + phaseProfile.getPhase() + " " + timer.format(phaseProfile.getElapsedTime()));
-        for(MojoProfile mp : phaseProfile.getMojoProfiles()) {
-          render("    " + mp.getId() + timer.format(mp.getElapsedTime())); 
-        }
-        render("");
-      }
+    private final Timer timer;
+
+    @Inject
+    public DefaultSessionProfileRenderer(final DefaultTimer timer) {
+        this.timer = timer;
     }
-  }
-  
-  private void render(String s) {
-    System.out.println(s);
-  }
+
+    @Override
+    public void render(final SessionProfile sessionProfile) {
+
+        for(ProjectProfile pp : sessionProfile.getProjectProfiles()) {
+            render("");
+            render(pp.getProjectName());
+            render("");
+            for(PhaseProfile phaseProfile : pp.getPhaseProfile()) {
+                render("  " + phaseProfile.getPhase() + " " + timer.format(phaseProfile.getElapsedTime()));
+                for(MojoProfile mp : phaseProfile.getMojoProfiles()) {
+                    render("    " + mp.getId() + timer.format(mp.getElapsedTime()));
+                }
+                render("");
+            }
+        }
+    }
+
+    private void render(final String s) {
+        System.out.println(s);
+    }
 }
