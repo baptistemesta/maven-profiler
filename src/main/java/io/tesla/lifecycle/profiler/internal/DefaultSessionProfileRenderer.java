@@ -18,11 +18,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import org.codehaus.plexus.component.annotations.Component;
-
 @Named
 @Singleton
-@Component(role = SessionProfileRenderer.class)
 public class DefaultSessionProfileRenderer implements SessionProfileRenderer {
 
     private final Timer timer;
